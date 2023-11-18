@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Signup</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 50px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #4CAF50;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        a:hover {
+            background-color: #358856;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to the Login and Signup Page</h1>
+    <a href="{{url_for('login')}}">Login</a>
+    <a href="{{url_for('register')}}">Sign Up</a>
+    <a href="{{url_for('adminlogin')}}">Admin Login</a>
+
+</body>
+</html>

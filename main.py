@@ -31,7 +31,7 @@ while True:
         cv2.imwrite('motion.png',img1)
         winsound.Beep(500,100)
     #live output
-    cv2.imshow("Security Camera",thresh)
+    cv2.imshow("Security Camera",img1)
     #waitkey set to escape key to exit the program
     if cv2.waitKey(10)==27:
         break
