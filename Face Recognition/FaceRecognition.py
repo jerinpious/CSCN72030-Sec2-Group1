@@ -5,8 +5,21 @@ from datetime import datetime
 import os
 import time
 
+# Function to create required folders
+def create_folders():
+    script_directory = os.path.dirname(os.path.abspath(__file__))
+    face_properties_folder = os.path.join(script_directory, 'Face Properties')
+
+    folders = ["faces", "unwanted_people", "records", "intruders", "known_faces"]
+    for folder in folders:
+        folder_path = os.path.join(face_properties_folder, folder)
+        os.makedirs(folder_path, exist_ok=True)
+
+# Create required folders if they don't exist
+create_folders()
+
 # Load images and their corresponding names from the "known_faces" folder
-known_faces_folder = 'C:/Users/Username/Desktop/known_faces'
+known_faces_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Face Properties', 'known_faces')
 known_face_names = []
 known_face_encodings = []
 
@@ -19,7 +32,7 @@ for file_name in os.listdir(known_faces_folder):
         known_face_encodings.append(known_encoding)
 
 # Load images and their corresponding names from the "unwanted_people" folder
-unwanted_folder = 'C:/Users/Username/Desktop/unwanted_people'
+unwanted_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Face Properties', 'unwanted_people')
 unwanted_face_names = []
 unwanted_face_encodings = []
 
@@ -56,16 +69,16 @@ recording = False
 start_time = None
 record_duration = 3 * 60 * 60  # 3 hours in seconds
 
-faces_output_folder = 'C:/Users/Username/Desktop/faces'
+faces_output_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Face Properties', 'faces')
 os.makedirs(faces_output_folder, exist_ok=True)
 
-records_output_folder = 'C:/Users/Username/Desktop/records'
+records_output_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Face Properties', 'records')
 os.makedirs(records_output_folder, exist_ok=True)
 
 video_writer = None
 
 def save_screenshot(face_img, name, timestamp, face_index):
-    filename = f'{faces_output_folder}/{name}_{timestamp}_face_{face_index}.png'
+    filename = os.path.join(faces_output_folder, f'{name}_{timestamp}_face_{face_index}.png')
     cv2.imwrite(filename, face_img)
 
 while True:
@@ -104,7 +117,7 @@ while True:
             cv2.putText(img1, f"INTRUDER: {intruder_name}", (left, top - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
             
             # Save the screenshot of the intruder to the "intruders" folder
-            intruder_filename = f'C:/Users/Username/Desktop/intruders/{intruder_name}_{datetime.now().strftime("%Y%m%d%H%M%S")}_intruder_{i + 1}.png'
+            intruder_filename = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Face Properties', 'intruders', f'{intruder_name}_{datetime.now().strftime("%Y%m%d%H%M%S")}_intruder_{i + 1}.png')
             cv2.imwrite(intruder_filename, img1[top:bottom, left:right])
         else:
             rectangle_color = (0, 255, 0)  # Green for known faces
@@ -141,7 +154,7 @@ while True:
 
             # Generate a unique filename with person's name, date, and time
             timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-            filename = f'C:/Users/Username/Desktop/faces/{name}_{timestamp}_face_{i + 1}.png'
+            filename = os.path.join(faces_output_folder, f'{name}_{timestamp}_face_{i + 1}.png')
 
             # Save the cropped face as a screenshot
             cv2.imwrite(filename, face_roi)
@@ -174,7 +187,7 @@ while True:
 
         # Define the codec and create a VideoWriter object
         timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-        video_filename = f'{records_output_folder}/record_{timestamp}.avi'
+        video_filename = os.path.join(records_output_folder, f'record_{timestamp}.avi')
         fourcc = cv2.VideoWriter_fourcc(*'XVID')
         video_writer = cv2.VideoWriter(video_filename, fourcc, desired_fps, (640, 480))
 
