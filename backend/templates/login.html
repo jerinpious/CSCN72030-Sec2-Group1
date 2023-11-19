@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        form {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        a {
+            text-decoration: none;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <h1>Login</h1>
+
+    <form method="post" action="">
+        {{ form.hidden_tag() }}
+        <label for="username">Username:</label>
+        {{ form.username }}
+        <label for="password">Password:</label>
+        {{ form.password }}
+        <button type="submit">Login</button>
+        
+    </form>    
+    <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+    <a href="{{url_for('adminlogin')}}">Log in as an Admin</a>
+</body>
+</html>
+
+
