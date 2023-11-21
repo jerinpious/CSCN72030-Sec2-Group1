@@ -1,5 +1,4 @@
 import cv2
-import face_recognition
 import winsound
 from datetime import datetime
 import os
@@ -10,7 +9,7 @@ def create_folders():
     script_directory = os.path.dirname(os.path.abspath(__file__))
     face_properties_folder = os.path.join(script_directory, 'Face Properties')
 
-    folders = ["faces", "unwanted_people", "records", "intruders", "known_faces"]
+    folders = ["faces", "unwanted_people", "recordings", "intruders", "known_faces"]
     for folder in folders:
         folder_path = os.path.join(face_properties_folder, folder)
         os.makedirs(folder_path, exist_ok=True)
@@ -21,31 +20,26 @@ create_folders()
 # Load images and their corresponding names from the "known_faces" folder
 known_faces_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Face Properties', 'known_faces')
 known_face_names = []
-known_face_encodings = []
+known_face_images = []
 
 for file_name in os.listdir(known_faces_folder):
     if file_name.endswith(".jpg") or file_name.endswith(".png"):
         file_path = os.path.join(known_faces_folder, file_name)
-        known_image = face_recognition.load_image_file(file_path)
-        known_encoding = face_recognition.face_encodings(known_image)[0]
+        known_image = cv2.imread(file_path)
         known_face_names.append(os.path.splitext(file_name)[0])
-        known_face_encodings.append(known_encoding)
+        known_face_images.append(known_image)
 
 # Load images and their corresponding names from the "unwanted_people" folder
 unwanted_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Face Properties', 'unwanted_people')
 unwanted_face_names = []
-unwanted_face_encodings = []
+unwanted_face_images = []
 
 for file_name in os.listdir(unwanted_folder):
     if file_name.endswith(".jpg") or file_name.endswith(".png"):
         file_path = os.path.join(unwanted_folder, file_name)
-        unwanted_image = face_recognition.load_image_file(file_path)
-        
-        # Check if any face is found in the image
-        unwanted_face_encoding = face_recognition.face_encodings(unwanted_image)
-        if unwanted_face_encoding:
-            unwanted_face_encodings.append(unwanted_face_encoding[0])
-            unwanted_face_names.append(os.path.splitext(file_name)[0])
+        unwanted_image = cv2.imread(file_path)
+        unwanted_face_images.append(unwanted_image)
+        unwanted_face_names.append(os.path.splitext(file_name)[0])
 
 # Initialize variables for motion tracking and person names
 motion_paths = {}  # Dictionary to store the motion paths of faces
@@ -96,19 +90,28 @@ while True:
             video_writer.release()
             video_writer = None  # Reset video_writer after releasing
 
-    # Find faces in the current frame
-    try:
-        face_locations = face_recognition.face_locations(img1)
-        face_encodings = face_recognition.face_encodings(img1, face_locations)
-    except Exception as e:
-        print(f"An error occurred: {e}")
+    # Convert the image to grayscale for face detection
+    gray = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
 
+    # Use a face detection cascade classifier
+    face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=5, minSize=(30, 30))
 
-    for i, (top, right, bottom, left) in enumerate(face_locations):
+    for i, (x, y, w, h) in enumerate(faces):
+        # Draw a rectangle around the detected face
+        face_roi = img1[y:y+h, x:x+w]
+
         # Check if the current face matches any unwanted faces
         intruder_name = None
-        for j, unwanted_encoding in enumerate(unwanted_face_encodings):
-            if face_recognition.compare_faces([unwanted_encoding], face_encodings[i], tolerance=0.5)[0]:
+        for j, unwanted_image in enumerate(unwanted_face_images):
+            # Resize unwanted image to match the detected face size
+            unwanted_resized = cv2.resize(unwanted_image, (w, h))
+
+            # Compare the faces using structural similarity index (SSI)
+            result = cv2.matchTemplate(face_roi, unwanted_resized, cv2.TM_CCOEFF_NORMED)
+            _, max_val, _, _ = cv2.minMaxLoc(result)
+
+            if max_val > 0.7:  # Adjust this threshold as needed
                 intruder_name = unwanted_face_names[j]
                 break
 
@@ -118,43 +121,51 @@ while True:
             winsound.Beep(1000, 100)
 
             # Mark unwanted person as "INTRUDER"
-            cv2.putText(img1, f"INTRUDER: {intruder_name}", (left, top - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-            
+            cv2.putText(img1, f"INTRUDER: {intruder_name}", (x, y - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+
             # Save the screenshot of the intruder to the "intruders" folder
             intruder_filename = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Face Properties', 'intruders', f'{intruder_name}_{datetime.now().strftime("%Y%m%d%H%M%S")}_intruder_{i + 1}.png')
-            cv2.imwrite(intruder_filename, img1[top:bottom, left:right])
+            cv2.imwrite(intruder_filename, face_roi)
         else:
             rectangle_color = (0, 255, 0)  # Green for known faces
 
+            # Initialize 'name' before using it
+            name = "Unknown"
+
             # Use a unique identifier for each face
-            face_id = hash((top, right, bottom, left))
+            face_id = hash((x, y, w, h))
 
             # Update or initialize the motion path for the current face
             if face_id not in motion_paths:
                 motion_paths[face_id] = []
-            motion_paths[face_id].append(((left + right) // 2, (top + bottom) // 2))  # Record the center of the face
+            motion_paths[face_id].append(((x + w) // 2, (y + h) // 2))  # Record the center of the face
 
             # Draw a dot to track the motion of the face
             if len(motion_paths[face_id]) > 0:
                 last_point = motion_paths[face_id][-1]
-                cv2.circle(img1, last_point, 5, (0, 255, 0), -1)
+                #cv2.circle(img1, last_point, 5, (0, 255, 0), -1)
 
             # Check if the current face matches any known faces
-            matches = face_recognition.compare_faces(known_face_encodings, face_encodings[i], tolerance=0.5)
+            matches = []
 
-            name = "Unknown"
-            if True in matches:
-                first_match_index = matches.index(True)
+            for known_face_image in known_face_images:
+                # Resize known face image to match the detected face size
+                known_resized = cv2.resize(known_face_image, (w, h))
+
+                # Compare the faces using structural similarity index (SSI)
+                result = cv2.matchTemplate(face_roi, known_resized, cv2.TM_CCOEFF_NORMED)
+                _, max_val, _, _ = cv2.minMaxLoc(result)
+                matches.append(max_val)
+
+            if any(match > 0.7 for match in matches):  # Adjust this threshold as needed
+                first_match_index = matches.index(max(matches))
                 name = known_face_names[first_match_index]
 
                 # Save the cropped face as a screenshot
-                save_screenshot(img1[top:bottom, left:right], name, datetime.now().strftime("%Y%m%d%H%M%S"), i + 1)
+                save_screenshot(face_roi, name, datetime.now().strftime("%Y%m%d%H%M%S"), i + 1)
 
             # Display the person's name on the image
-            cv2.putText(img1, name, (left, top - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
-
-            # Crop the region of interest (ROI) from the original image
-            face_roi = img1[top:bottom, left:right]
+            cv2.putText(img1, name, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
 
             # Generate a unique filename with person's name, date, and time
             timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
@@ -188,7 +199,11 @@ while True:
     elif key == ord('r'):  # Press 'r' to start recording
         recording = True
         start_time = time.time()
-
+        if key == ord('s'):
+            recording = False
+            if video_writer:
+                video_writer.release()
+        
         # Define the codec and create a VideoWriter object
         timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
         video_filename = os.path.join(records_output_folder, f'record_{timestamp}.avi')
