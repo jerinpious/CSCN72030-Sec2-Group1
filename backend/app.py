@@ -82,16 +82,21 @@ class AdminLoginForm(FlaskForm):
 def home():
     return render_template('home.html')
 
-
+import time
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard.html', username=current_user.username)
+    data = []
+    timestamp = int(time.time())
+    with open('log.txt', 'r') as file:
+        data.append(file.read())
+    return render_template('dashboard.html', username=current_user.username, timestamp=timestamp, data=data)
 
 @app.route('/admin_dashboard')
 @login_required
 def admindashboard():
-    return render_template('admindash.html', username=current_user.username)
+    timestamp = int(time.time())
+    return render_template('admindash.html', username=current_user.username, timestamp=timestamp)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():

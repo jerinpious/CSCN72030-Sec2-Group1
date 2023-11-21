@@ -4,6 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard</title>
+    <script type="text/javascript">
+        setInterval(function(){
+            location.reload();
+        }, 2000);  // Refresh every 2 seconds (adjust the interval as needed)
+
+        var scrollableDiv = document.getElementById("scrollableDiv");
+
+    // Automatically scroll to the bottom of the div
+        scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
+
+        // Optional: You can also use the following function to scroll to the bottom whenever new content is added
+        function scrollToBottom() {
+            scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
+        }
+    </script>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -60,8 +75,9 @@
         }
 
         .right-box {
-            flex: 1; /* Adjust flex ratio for the smaller box */
+            flex: 0.7; /* Adjust flex ratio for the smaller box */
             width: calc(33.33% - 10px); /* Adjust width considering padding and border */
+            align-items: first baseline;
         }
         button {
             background-color:  rgb(211, 76, 18);
@@ -83,30 +99,31 @@
             z-index: 100;
         }
         .nav-logo h1 {
-    margin: 0; /* Add this to remove default margin */
-    color: white;
-    font-size: 25px;
-    font-weight: 600;
-    margin-right: 600px;
-}
+            margin: 0; /* Add this to remove default margin */
+            color: white;
+            font-size: 25px;
+            font-weight: 600;
+            margin-right: 600px;
+    
+        }
 
 
-.nav-button .btn {
-    width: 140px;
-    height: 50px;
-    font-weight: 500;
-    font-size: large;
-    background: rgba(255, 255, 255, 0.4);
-    color: #ffffff;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: .3s ease;
-    margin-top: -10px; /* Adjusted margin */
-    margin-left: auto;
-    margin-right: auto;
-    display: inline-block;
-}
+        .nav-button .btn {
+            width: 140px;
+            height: 50px;
+            font-weight: 500;
+            font-size: large;
+            background: rgba(255, 255, 255, 0.4);
+            color: #ffffff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: .3s ease;
+            margin-top: -10px; /* Adjusted margin */
+            margin-left: auto;
+            margin-right: auto;
+            display: inline-block;
+        }
 
 
         .btn.white-btn {
@@ -141,6 +158,11 @@
         .nav-menu.responsive {
             flex-direction: column;
         }
+        p {
+            margin-bottom: 10%; /* Adjust the margin as needed */
+            color:rgb(0, 0, 0);
+            font-size: large;
+        }
     </style>
 </head>
 <body>
@@ -160,11 +182,14 @@
     
     <div class="content">
         <div class="left-box">
-            <!-- Video will be here -->
-            <video id="videoFeed" autoplay></video>
+            <!-- Video will be here 
+            <video id="videoFeed" autoplay></video>-->
         </div>        
-        <div class="right-box">
-            
+        <div class="right-box" id="scrollableDiv" style="height: 520px; overflow-y: auto;">
+            {% for line in data %}
+                <p>{{ line }}</p>
+                <br>
+            {% endfor %}
         </div>
     </div>
     <!-- Add a button to start face recognition -->

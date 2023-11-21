@@ -5,9 +5,13 @@ import os
 import time
 # Global variable to control the face recognition state
 FACE_RECOGNITION_FLAG = True
+webcam = None
 
 def run_face_recognition():
     print("Starting face recognition...")
+    with open('log.txt', 'a') as file:
+        file.write("Starting face recognition...\n")
+        
     # Function to create required folders
     def create_folders():
         script_directory = os.path.dirname(os.path.abspath(__file__))
@@ -192,8 +196,9 @@ def run_face_recognition():
 
         # Display the "Recording in Progress" message
         if recording:
-            print("Recording in Progress")
-            cv2.putText(img1, "Recording in Progress", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2)
+            print("Recording in Progress...")
+            
+            cv2.putText(img1, "Recording in Progress...", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 2)
 
             # Write the frame to the video file
             if video_writer:
@@ -213,6 +218,8 @@ def run_face_recognition():
             break
         elif key == ord('r'):  # Press 'r' to start recording
             recording = True
+            with open('log.txt', 'a') as file:
+                file.write("Recording in Progress...\n")
             start_time = time.time()
             if key == ord('s'):
                 recording = False
@@ -228,11 +235,18 @@ def run_face_recognition():
     webcam.release()
     cv2.destroyAllWindows()
 
-# Function to stop face recognition
+
+
 def stop_face_recognition():
-    global FACE_RECOGNITION_FLAG
+    global FACE_RECOGNITION_FLAG, webcam
     print("Stopping face recognition...")
+    with open('log.txt', 'a') as file:
+        file.write("Stopping face recognition...\n")
     FACE_RECOGNITION_FLAG = False
+    
+    # Release the video capture object
+    if webcam:
+        webcam.release()
 
 if __name__ == "__main__":
     run_face_recognition()

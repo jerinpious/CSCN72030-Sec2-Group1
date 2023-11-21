@@ -5,14 +5,12 @@
     <style>
         /* Your CSS styles here */
         body {
-            background: url("Demo_Baground.jpg");
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+            background-color: #000000;
             overflow: hidden;
             margin: 0; /* Reset default margin */
             padding: 0; /* Reset default padding */
             font-family: 'Poppins', sans-serif;
+            color: white;
         }
 
         .gallery {
@@ -35,71 +33,39 @@
 
         body.alerts {
             background-color: rgb(54, 50, 50);
-            color: white;
         }
 
         .Alerts-header {
             background-color: #333;
             padding: 20px;
             text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .Alerts-header h1 {
             margin: 0;
             font-size: 28px;
+            color: darkgray; /* Dark gray for the h1 */
         }
 
-        .gallery-item p {
-            color: white;
-        }
-
-        .image-details {
-            color: white;
-        }
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #000000;
-            text-align: center;
-            margin: 50px;
-        }
-
-        h1 {
+        .btn.white-btn {
+            background: rgb(215, 215, 215);
             color: #ffffff;
-        }
-        .content {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
+            margin-top: -10px;
+            align-items: center;
         }
 
-        .left-box, .right-box {
-            background-color: white;
-            border: 1px solid gray;
-            padding: 10px;
-            height: 520px; /* Set the desired height */
-            box-sizing: border-box; /* Ensure padding and border don't increase width */
-            border-radius: 10px;
-            margin-top: 15px;
-            margin: 10px;
-        }
-
-        .left-box {
-            flex: 3; /* Adjust flex ratio to make it larger */
-            width: calc(66.66% - 10px); /* Adjust width considering padding and border */
-        }
-
-        .right-box {
-            flex: 1; /* Adjust flex ratio for the smaller box */
-            width: calc(33.33% - 10px); /* Adjust width considering padding and border */
-        }
         button {
-            background-color:  rgb(211, 76, 18);
+            background-color: rgb(211, 76, 18);
             color: white;
             padding: 10px 15px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
+
         .nav {
             position: fixed;
             top: 0;
@@ -108,83 +74,80 @@
             width: 100%;
             height: 50px;
             line-height: 80px;
-            background: linear-gradient(rgba(39,39,39, 0.6), transparent);
+            background: linear-gradient(rgba(39, 39, 39, 0.6), transparent);
             z-index: 100;
         }
+
         .nav-logo h1 {
-    margin: 0; /* Add this to remove default margin */
-    color: white;
-    font-size: 25px;
-    font-weight: 600;
-    margin-right: 600px;
-}
-
-
-.nav-button .btn {
-    width: 150px;
-    height: 50px;
-    font-weight: 500;
-    font-size: large;
-    background: rgba(222, 49, 49, 0.4);
-    color: #850c0c;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: .3s ease;
-    margin-top: -10px; /* Adjusted margin */
-    margin-left: auto;
-    margin-right: auto;
-    display: inline-block;
-}
-
-
-        .btn.white-btn {
-            background: rgb(215, 215, 215);
-            color: #ffffff;
-            margin-top: -100px;
+            margin: 0;
+            color: white;
+            font-size: 25px;
+            font-weight: 600;
+            margin-right: 20px; /* Adjusted margin */
         }
+
+        .nav-button .btn {
+            width: 150px;
+            height: 50px;
+            font-weight: 500;
+            font-size: large;
+            background: rgba(222, 49, 49, 0.4);
+            color: #850c0c;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: .3s ease;
+            margin-top: -10px; /* Adjusted margin */
+            display: inline-block;
+        }
+
         form {
             max-width: 300px;
             margin: 0 auto;
         }
+
         .wrapper {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
         }
+
         .nav-menu-btn {
             display: none;
         }
+
         .form-box {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-direction: column;
         }
+
         .nav-menu {
             display: flex;
             justify-content: space-around;
             width: 100%;
         }
+
         .nav-menu.responsive {
             flex-direction: column;
         }
     </style>
 </head>
 
-<body class="alerts">
+<body>
     <div class="Alerts-header">
         <h1>Alerts</h1>
+        <button class="btn white-btn" id="alertsBtn">
+            <a href="{{url_for('admindashboard')}}">
+                Admin Dashboard
+            </a>
+        </button>
     </div>
-    <button class="btn white-btn" id="alertsBtn">
-        <a href="{{url_for('admindashboard')}}">
-            Admin Dashboard
-        </a>
-    </button>
     <ul class="gallery">
         <li class="gallery-item">
-            <img src="face1.jpg" alt="Unknown Face 1">
+            <img src="{{ url_for('static', filename='face1.jpg') }}" alt="Unknown Face 1">
             <div class="image-details">
                 <p>Date: 10/12/2023</p>
                 <p>Location: Lobby</p>
@@ -193,7 +156,7 @@
             </div>
         </li>
         <li class="gallery-item">
-            <img src="face2.avif" alt="Unknown Face 2">
+            <img src="{{ url_for('static', filename='face2.avif') }}" alt="Unknown Face 2">
             <div class="image-details">
                 <p>Date: 10/12/2023</p>
                 <p>Location: Entrance</p>
@@ -202,7 +165,7 @@
             </div>
         </li>
         <li class="gallery-item">
-            <img src="face3.webp" alt="Unknown Face 3">
+            <img src="{{ url_for('static', filename='face3.webp') }}" alt="Unknown Face 3">
             <div class="image-details">
                 <p>Date: 10/13/2023</p>
                 <p>Location: Corridor</p>
@@ -211,7 +174,7 @@
             </div>
         </li>
         <li class="gallery-item">
-            <img src="face4.webp" alt="Unknown Face 4">
+            <img src="{{ url_for('static', filename='face4.webp') }}" alt="Unknown Face 4">
             <div class="image-details">
                 <p>Date: 10/14/2023</p>
                 <p>Location: Office</p>
@@ -220,7 +183,7 @@
             </div>
         </li>
         <li class="gallery-item">
-            <img src="face5.jpg" alt="Unknown Face 5">
+            <img src="{{ url_for('static', filename='face5.jpg') }}" alt="Unknown Face 5">
             <div class="image-details">
                 <p>Date: 10/15/2023</p>
                 <p>Location: Breakroom</p>
