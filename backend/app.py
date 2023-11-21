@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect
+from flask import Flask, render_template, url_for, redirect , jsonify
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
@@ -6,6 +6,10 @@ from flask_bcrypt import Bcrypt
 from flask_login import UserMixin, login_user, LoginManager, current_user, login_required, logout_user
 import json
 import os
+from flask import render_template, request
+import subprocess
+from FaceRecognition import run_face_recognition, stop_face_recognition
+from audio import record_audio, stop_recording
 
 
 app = Flask(__name__)
@@ -144,11 +148,47 @@ def adminlogin():
 
     return render_template('admin.html', form=form)
 
+@app.route('/alerts')
+@login_required
+def alerts():
+    return render_template('Alerts.html', username=current_user.username)
+
+
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+
+# for the face recognition
+@app.route('/start_face_recognition', methods=['POST'])
+def start_face_recognition():
+    # Trigger the face recognition script
+    run_face_recognition()
+    return jsonify({'message': 'Face recognition started'})
+
+@app.route('/stop_face_recognition', methods=['POST'])
+def stop_face_recognition_route():
+    # Trigger the stop face recognition function
+    stop_face_recognition()
+    return jsonify({'message': 'Face recognition stopped'})
+
+
+# For the audio recording
+@app.route('/start_audio_recording', methods=['POST'])
+def start_audio_recording():
+    # Trigger the audio recording script
+    record_audio()
+    return jsonify({'message': 'Audio recording started'})
+
+# For stopping audio recording
+@app.route('/stop_audio_recording', methods=['POST'])
+def stop_audio_recording():
+    # Trigger the stop recording function
+    stop_recording()
+    return jsonify({'message': 'Audio recording stopped'})
+
 
 if __name__ == '__main__':
     app.run(debug=True)

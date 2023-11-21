@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
+    <!-- home[ADMIN].html -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+<style>
+/* POPPINS FONT */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+*{  
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body{
+    background: url("Demo_Baground.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    overflow: hidden;
+}
+.wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 110vh;
+    background: rgba(39, 39, 39, 0.4);
+}
+.nav{
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    height: 100px;
+    line-height: 100px;
+    background: linear-gradient(rgba(39,39,39, 0.6), transparent);
+    z-index: 100;
+}
+.nav-logo p{
+    color: white;
+    font-size: 25px;
+    font-weight: 600;
+}
+.nav-menu ul{
+    display: flex;
+}
+.nav-menu ul li{
+    list-style-type: none;
+}
+.nav-menu ul li .link{
+    text-decoration: none;
+    font-weight: 500;
+    color: #fff;
+    padding-bottom: 15px;
+    margin: 0 25px;
+}
+.link:hover, .active{
+    border-bottom: 2px solid #fff;
+}
+.nav-button .btn{
+    width: 130px;
+    height: 40px;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.4);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: .3s ease;
+}
+.btn:hover{
+    background: rgba(255, 255, 255, 0.3);
+}
+#registerBtn{
+    margin-left: 15px;
+}
+.btn.white-btn{
+    background: rgba(255, 255, 255, 0.7);
+}
+.btn.btn.white-btn:hover{
+    background: rgba(255, 255, 255, 0.5);
+}
+.nav-menu-btn{
+    display: none;
+}
+.form-box{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 512px;
+    height: 420px;
+    overflow: hidden;
+    z-index: 2;
+}
+.login-container{
+    position: absolute;
+    left: 4px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    transition: .5s ease-in-out;
+}
+.Admin-container {
+    position: absolute;
+    left: -510px; /* Bring the Admin container into the viewable area */
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    transition: .5s ease-in-out;
+    opacity: 0; /* Initially hide the Admin form */
+    pointer-events: none; /* Disable pointer events when hidden */
+}
+/* Update the input fields within the Admin container */
+.Admin-container .input-box {
+    opacity: 1; /* Ensure input boxes are visible */
+    pointer-events: auto; /* Enable pointer events for input boxes */
+}
+.register-container{
+    position: absolute;
+    right: -520px;
+    width: 500px;
+    display: flex;
+    flex-direction: column;
+    transition: .5s ease-in-out;
+}
+.top span{
+    color: #fff;
+    font-size: small;
+    padding: 10px 0;
+    display: flex;
+    justify-content: center;
+}
+.top span a{
+    font-weight: 500;
+    color: #fff;
+    margin-left: 5px;
+}
+header{
+    color: #fff;
+    font-size: 30px;
+    text-align: center;
+    padding: 10px 0 30px 0;
+}
+.two-forms{
+    display: flex;
+    gap: 10px;
+}
+.input-field{
+    font-size: 15px;
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    height: 50px;
+    width: 100%;
+    padding: 0 10px 0 45px;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    transition: .2s ease;
+}
+.input-field:hover, .input-field:focus{
+    background: rgba(255, 255, 255, 0.25);
+}
+::-webkit-input-placeholder{
+    color: #fff;
+}
+.input-box i{
+    position: relative;
+    top: -35px;
+    left: 17px;
+    color: #fff;
+}
+.submit{
+    font-size: 15px;
+    font-weight: 500;
+    color: black;
+    height: 45px;
+    width: 100%;
+    border: none;
+    border-radius: 30px;
+    outline: none;
+    background: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    transition: .3s ease-in-out;
+}
+.submit:hover{
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 1px 5px 7px 1px rgba(0, 0, 0, 0.2);
+}
+.two-col{
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    font-size: small;
+    margin-top: 10px;
+}
+.two-col .one{
+    display: flex;
+    gap: 5px;
+}
+.two label a{
+    text-decoration: none;
+    color: #fff;
+}
+.two label a:hover{
+    text-decoration: underline;
+}
+@media only screen and (max-width: 786px){
+    .nav-button{
+        display: none;
+    }
+    .nav-menu.responsive{
+        top: 100px;
+    }
+    .nav-menu{
+        position: absolute;
+        top: -800px;
+        display: flex;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.2);
+        width: 100%;
+        height: 90vh;
+        backdrop-filter: blur(20px);
+        transition: .3s;
+    }
+    .nav-menu ul{
+        flex-direction: column;
+        text-align: center;
+    }
+    .nav-menu-btn{
+        display: block;
+    }
+    .nav-menu-btn i{
+        font-size: 25px;
+        color: #fff;
+        padding: 10px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        cursor: pointer;
+        transition: .3s;
+    }
+    .nav-menu-btn i:hover{
+        background: rgba(255, 255, 255, 0.15);
+    }
+}
+@media only screen and (max-width: 540px) {
+    .wrapper{
+        min-height: 100vh;
+    }
+    .form-box{
+        width: 100%;
+        height: 500px;
+    }
+    .register-container, .login-container, .Admin-container{
+        width: 100%;
+        padding: 0 20px;
+    }
+    .register-container .two-forms{
+        flex-direction: column;
+        gap: 0;
+    }
+}
+
+/* home page for user and admin */
+
+body.home {
+    display: flex;
+            flex-direction: column;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: black;
+}
+
+.home-header {
+    display: flex;
+    justify-content: space-between; /* Spreads elements apart */
+    align-items: center; /* Aligns items vertically */
+    background-color: grey;
+    color: white;
+    padding: 20px;
+}
+
+.right-header {
+    display: flex; /* Aligns items in the right section */
+}
+
+.right-header p {
+    margin: 0; /* Remove default margin */
+    padding: 5px 10px; /* Add padding for spacing */
+}
+
+.left-header {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    position: relative; /* Set parent as relative for absolute positioning */
+}
+
+.profile-icon {
+    width: 50px; /* Set the desired width for the icon */
+    height: auto; /* Maintain aspect ratio */
+    margin-left: 10px; /* Add spacing between the icon and username */
+}
+
+.username-container {
+    position: absolute; /* Position the container */
+    left: calc(100% + 10px); /* Position it to the right of the profile icon */
+    display: flex;
+    flex-direction: column; /* Arrange items in a column */
+}
+
+.user-type {
+    font-size: 14px; /* Set the desired font size */
+    color: #666; /* Set the color for the user type */
+}
+
+
+.settings-icon{
+    width: 20px; /* Set the desired width for the icon */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 10px; /* Add spacing between the icon and username */
+    margin-left: 20px;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.left-box, .right-box {
+    background-color: white;
+    border: 1px solid gray;
+    padding: 10px;
+    height: 600px; /* Set the desired height */
+    box-sizing: border-box; /* Ensure padding and border don't increase width */
+    border-radius: 10px;
+    margin-top: 15px;
+    margin: 10px;
+}
+
+.left-box {
+    flex: 3; /* Adjust flex ratio to make it larger */
+    width: calc(66.66% - 10px); /* Adjust width considering padding and border */
+}
+
+.right-box {
+    flex: 1; /* Adjust flex ratio for the smaller box */
+    width: calc(33.33% - 10px); /* Adjust width considering padding and border */
+}
+
+/* Settings Page */
+
+/* Define styles for the Settings page */
+.settings-page {
+    background-color: rgb(54, 50, 50); /* Set the background color to black */
+    color: white; /* Set text color to white */
+    margin: 0; /* Reset default margin */
+    padding: 0; /* Reset default padding */
+}
+
+/* Styles for the Settings header */
+.settings-header {
+    background-color: #333; /* Darker background for the header */
+    padding: 20px; /* Add padding to the header */
+    text-align: left; /* Align text to the left */
+}
+
+.settings-header h1 {
+    margin: 0; /* Remove default margin */
+    font-size: 28px; /* Set the desired font size for the header text */
+}
+
+/* Styles for the Settings content */
+.settings-content {
+    padding: 20px; /* Add padding to the content area */
+    color: white; /* Set text color to white */
+}
+
+.setting-option {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.setting-option label {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.setting-option input[type="checkbox"] {
+    margin-left: auto;
+}
+
+/* Alerts page design */
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.gallery-item {
+    margin: 10px;
+    text-align: center;
+}
+.gallery-item img {
+    width: 200px;
+    height: 200px;
+}
+
+body.alerts {
+    background-color: rgb(54, 50, 50); /* Set the background color to black */
+    color: white; /* Set text color to white */
+    margin: 0; /* Reset default margin */
+    padding: 0; /* Reset default padding */
+}
+
+.Alerts-header{
+    background-color: #333; /* Darker background for the header */
+    padding: 20px; /* Add padding to the header */
+    text-align: left; /* Align text to the left */
+}
+
+.Alerts-header h1{
+    margin: 0; /* Remove default margin */
+    font-size: 28px; /* Set the desired font size for the header text */
+}
+
+
+.gallery-item p {
+    color: white; /* Set text color to white */
+}
+
+</style>
+
+</head>
+<body class="home">
+    <div class="home-header">
+        <div class="left-header">
+            <div class="username-container">
+                <h1>Username</h1>
+                <span class="user-type">User</span>
+            </div>
+            <img src="person-circle-outline.svg" alt="" class="profile-icon">
+        </div>  
+        <div class="right-header">
+            <p>Alerts</p>
+
+            <img src="settings-outline.svg" alt="" class="settings-icon">
+        </div>
+    </div>
+    <div class="content">
+        <div class="left-box">
+        </div>
+        <div class="right-box">
+        </div>
+    </div>
+</body>
+</html>
