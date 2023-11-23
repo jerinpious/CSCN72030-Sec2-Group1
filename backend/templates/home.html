@@ -79,38 +79,40 @@
         .nav-menu.responsive {
             flex-direction: column;
         }
+        .nav-logo {
+            margin-left: -1100px; /* Shift to the leftmost position */
+            margin-top: 15px;
+        }
 
-    
+        .nav-logo img {
+            width: 250px; /* Change the width as needed */
+            height: auto; /* Maintain aspect ratio */
+        }
+
     </style>
 </head>
 <body>
-
-<nav class="nav">
-    <div class="nav-logo">
-        <p>LOGO .</p>
-    </div>
-</nav>
+    <nav class="nav">
+        <div class="nav-logo">
+            <img src="{{ url_for('static', filename='logo2.png') }}" alt="Logo">
+        </div>        
+    </nav>
     <div class="nav-button">
-        <button class="btn white-btn" id="loginBtn" onclick="login()">
-            <a href="{{url_for('login')}}" >
-                Log In
-            </a>
+        <button class="btn white-btn" id="loginBtn" onclick="redirect('/login')">
+            Log In
         </button>
-        <button class="btn white-btn" id="loginBtn" onclick="register()">
-            <a href="{{url_for('register')}}">
-                Register
-            </a>
+        <button class="btn white-btn" id="loginBtn" onclick="redirect('/register')">
+            Register
         </button>
-        <button class="btn white-btn" id="registerBtn" onclick="register()">
-            <a href="{{url_for('adminlogin')}}">
-                Admin Login
-            </a>
+        <button class="btn white-btn" id="registerBtn" onclick="redirect('/adminlogin')">
+            Admin Login
         </button>
     </div>
 
-
-    
-  
- 
+    <script>
+        function redirect(url) {
+            window.location.href = url;
+        }
+    </script>
 </body>
 </html>

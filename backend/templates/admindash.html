@@ -4,6 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
+    <script type="text/javascript">
+        setInterval(function(){
+            location.reload();
+        }, 2000);  // Refresh every 2 seconds (adjust the interval as needed)
+
+        var scrollableDiv = document.getElementById("scrollableDiv");
+
+    // Automatically scroll to the bottom of the div
+        scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
+
+        // Optional: You can also use the following function to scroll to the bottom whenever new content is added
+        function scrollToBottom() {
+            scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
+        }
+    </script> 
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -61,30 +76,29 @@
             z-index: 100;
         }
         .nav-logo h1 {
-    margin: 0; /* Add this to remove default margin */
-    color: white;
-    font-size: 25px;
-    font-weight: 600;
-    margin-right: 600px;
-}
+            margin: 0; /* Add this to remove default margin */
+            color: white;
+            font-size: 25px;
+            font-weight: 600;
+            margin-right: 600px;
+        }
 
-
-.nav-button .btn {
-    width: 150px;
-    height: 50px;
-    font-weight: 500;
-    font-size: large;
-    background: rgba(255, 255, 255, 0.4);
-    color: #ffffff;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    transition: .3s ease;
-    margin-top: -10px; /* Adjusted margin */
-    margin-left: auto;
-    margin-right: auto;
-    display: inline-block;
-}
+        .nav-button .btn {
+            width: 150px;
+            height: 50px;
+            font-weight: 500;
+            font-size: large;
+            background: rgba(255, 255, 255, 0.4);
+            color: #ffffff;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: .3s ease;
+            margin-top: -10px; /* Adjusted margin */
+            margin-left: auto;
+            margin-right: auto;
+            display: inline-block;
+        }
 
 
         .btn.white-btn {
@@ -127,20 +141,14 @@
             <h1>{{ username }}</h1>
         </div>
         <div class="nav-button">
-            <button class="btn white-btn" id="registerBtn" onclick="register()">
-                <a href="{{url_for('logout')}}">
-                    Logout
-                </a>    
+            <button class="btn white-btn" id="loginBtn" onclick="redirect('/register')">
+                Logout
             </button>
-            <button class="btn white-btn" id="registerBtn" onclick="register()">
-                <a href="{{url_for('login')}}">
-                    Login as User
-                </a>
+            <button class="btn white-btn" id="loginBtn" onclick="redirect('/login')">
+                Login as User
             </button>
-            <button class="btn white-btn" id="alertsBtn">
-                <a href="{{url_for('alerts')}}">
-                    Alerts
-                </a>
+            <button class="btn white-btn" id="loginBtn" onclick="redirect('/alerts')">
+                Alerts!
             </button>
         </div>
     </nav>
@@ -153,7 +161,7 @@
     </div>
    <!-- Add a button to start face recognition -->
    <button id="startRecognition">Start Face Recognition</button>
-   <button id="stopRecognition">Stop Face Recognition</button>
+   <!--<button id="stopRecognition">Stop Face Recognition</button>-->
    <script>
        function startFaceRecognition() {
            // Use AJAX to send a request to the server to start face recognition
@@ -257,5 +265,10 @@
    document.getElementById('stopAudio').addEventListener('click', stopAudioRecording);
    
    </script>
+   <script>
+    function redirect(url) {
+        window.location.href = url;
+    }
+</script>
 </body>
 </html>

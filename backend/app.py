@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect , jsonify
+from flask import Flask, render_template, url_for, redirect , jsonify, Response
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
@@ -194,6 +194,12 @@ def stop_audio_recording():
     stop_recording()
     return jsonify({'message': 'Audio recording stopped'})
 
+
+# For the camera to show in the left box
+@app.route('/video_feed')
+def video_feed():
+    return Response(run_face_recognition(),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
 
 if __name__ == '__main__':
     app.run(debug=True)

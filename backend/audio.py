@@ -9,7 +9,8 @@ RECORDING_FLAG = True
 
 def record_audio():
     global RECORDING_FLAG
-    print("Recording audio...")
+    with open('log.txt', 'a') as file:
+                file.write("Recording Audio Started.....\n")
     audio = pyaudio.PyAudio()
 
     stream = audio.open(format=pyaudio.paInt16, channels=1, rate=44100, input=True, frames_per_buffer=1024)
@@ -47,7 +48,8 @@ def record_audio():
 # Function to stop the recording
 def stop_recording():
     global RECORDING_FLAG
-    print("Stopping audio recording...")
+    with open('log.txt', 'a') as file:
+                file.write("Recording Audio Stopped.....\n")
     RECORDING_FLAG = False
 
 if __name__ == "__main__":

@@ -18,7 +18,7 @@
         function scrollToBottom() {
             scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
         }
-    </script>
+    </script> 
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -163,6 +163,54 @@
             color:rgb(0, 0, 0);
             font-size: large;
         }
+
+        /* Add this style block to your existing <style> tag or in your external CSS file */
+
+            .instructions-section {
+            margin: 20px;
+            padding: 20px;
+            background-color: #000000;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left; /* Align text to the left */
+        }
+
+        .instructions-section h2 {
+            color: #ffffff;
+            font-size: 24px; /* Adjust the font size as needed */
+            margin-bottom: 10px; /* Add some spacing below the header */
+        }
+
+        .instructions-section h3 {
+            color: #ffffff;
+            margin-top: 15px;
+        }
+
+        .instructions-section p {
+            color: #ffffff;
+            margin-bottom: 15px;
+        }
+
+        /* Add a white-colored line between sections */
+        .instructions-section h2,
+        .instructions-section h3,
+        .instructions-section p {
+            border-bottom: 1px solid #fff;
+            padding-bottom: 10px; /* Add some spacing below each section */
+        }
+
+        .instructions-section ul {
+            list-style-type: disc; /* Use disc bullets for list items */
+            margin-left: 20px; /* Add some left margin for better indentation */
+            color: #ffffff; /* Set the color for list items */
+        }
+
+        .instructions-section ul li {
+            margin-bottom: 8px; /* Add some spacing between list items */
+        }
+
+
+
     </style>
 </head>
 <body>
@@ -171,10 +219,9 @@
             <h1>{{ username }}</h1>
         </div>
         <div class="nav-button">
-            <button class="btn white-btn" id="registerBtn" onclick="register()">
-                <a href="{{url_for('logout')}}">
+                <button class="btn white-btn" id="loginBtn" onclick="redirect('/register')">
                     Logout
-                </a>    
+                </button>
             </button>
         </div>
     </nav>
@@ -194,7 +241,99 @@
     </div>
     <!-- Add a button to start face recognition -->
 <button id="startRecognition">Start Face Recognition</button>
-<button id="stopRecognition">Stop Face Recognition</button>
+<!-- <button id="stopRecognition">Stop Face Recognition</button> -->
+
+
+
+<button id="startAudio">Start Audio Recording</button>
+<button id="stopAudio">Stop Audio Recording</button>
+
+
+<div class="instructions-section">
+    <h2>About CamSentinel</h2>
+    <p>In the world of surveillance and security, CamSentinel introduces a game-changing technology: an advanced security camera system with cutting-edge facial recognition capabilities. This innovation marks a significant step forward, reshaping how we think about safety and security.</p>
+    
+    <h2>How to Use CamSentinel</h2>
+    <p>Welcome to the User Dashboard! Follow the instructions below to make the most out of your experience.</p>
+    
+    <h3>Face Recognition</h3>
+    <p>Click the "Start Face Recognition" button to initiate face recognition. The video feed will display the live camera feed. Click "Stop Face Recognition" to end the process. Additionally, you can press 'R' to start recording your video, and it will be saved in a file.</p>
+
+    <h3>Text Feed</h3>
+    <p>The right box displays a scrollable text feed. New messages or information will appear here. If you encounter any issues, contact support.</p>
+
+    <h3>Audio Recording</h3>
+    <p>Use the "Start Audio Recording" and "Stop Audio Recording" buttons to control audio recording. Relevant information will be provided in the text feed. Audio files are saved for future reference.</p>
+
+
+    <!-- Key Features section -->
+    <h2>Key Features</h2>
+    <ul>
+        <li>Facial Recognition Integration: Our system seamlessly incorporates facial recognition technology, allowing precise identification of individuals within its view.</li>
+        <li>Enhanced Public Safety: Particularly valuable in crowded areas, the system swiftly detects and responds to potential security threats, enhancing public safety.</li>
+        <!-- Add more features as needed -->
+    </ul>
+
+    <!-- Impact Across Industries section -->
+    <h2>Impact Across Industries</h2>
+    <p>This innovation brings transformative changes to various industries:</p>
+    <ul>
+        <li>Public Safety: It creates safer environments in crowded places, benefiting public events, transportation hubs, and urban centers.</li>
+        <li>Secure Facilities: From government buildings to corporate offices, secure facilities gain enhanced protection for sensitive information and assets.</li>
+        <li>General Security: Beyond specialized areas, the system finds use in everyday security applications, ensuring the safety of people and valuable goods.</li>
+    </ul>
+
+    <!-- Revolutionizing Security Standards section -->
+    <h2>Revolutionizing Security Standards</h2>
+    <p>Our advanced security camera system doesn't just provide solutions; it sets new standards for security effectiveness and precision. By offering unparalleled accuracy and efficiency, it challenges existing norms, leading to a reevaluation of security strategies. This encourages a shift towards proactive and responsive security measures, fundamentally changing the way we approach safety and protection.</p>
+
+    <!-- ... (Add more details as needed) -->
+</div>
+
+
+<script>
+    function startAudioRecording() {
+     // Use AJAX to send a request to the server to start audio recording
+     fetch('/start_audio_recording', {
+         method: 'POST',
+         headers: {
+             'Content-Type': 'application/json',
+         },
+     })
+     .then(response => response.json())
+     .then(data => {
+         // Handle the response from the server if needed
+         console.log(data);
+     })
+     .catch((error) => {
+         console.error('Error:', error);
+     });
+ }
+ 
+ function stopAudioRecording() {
+     // Use AJAX to send a request to the server to stop audio recording
+     fetch('/stop_audio_recording', {
+         method: 'POST',
+         headers: {
+             'Content-Type': 'application/json',
+         },
+     })
+     .then(response => response.json())
+     .then(data => {
+         // Handle the response from the server if needed
+         console.log(data);
+     })
+     .catch((error) => {
+         console.error('Error:', error);
+     });
+ }
+ 
+ // Attach event listeners to the buttons
+ document.getElementById('startAudio').addEventListener('click', startAudioRecording);
+ document.getElementById('stopAudio').addEventListener('click', stopAudioRecording);
+ 
+ </script>
+
 <script>
     function startFaceRecognition() {
         // Use AJAX to send a request to the server to start face recognition
@@ -252,51 +391,10 @@
     document.getElementById('startRecognition').addEventListener('click', startFaceRecognition);
     document.getElementById('stopRecognition').addEventListener('click', stopFaceRecognition);
 </script>
-
-<button id="startAudio">Start Audio Recording</button>
-<button id="stopAudio">Stop Audio Recording</button>
-
 <script>
-   function startAudioRecording() {
-    // Use AJAX to send a request to the server to start audio recording
-    fetch('/start_audio_recording', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Handle the response from the server if needed
-        console.log(data);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-}
-
-function stopAudioRecording() {
-    // Use AJAX to send a request to the server to stop audio recording
-    fetch('/stop_audio_recording', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Handle the response from the server if needed
-        console.log(data);
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-}
-
-// Attach event listeners to the buttons
-document.getElementById('startAudio').addEventListener('click', startAudioRecording);
-document.getElementById('stopAudio').addEventListener('click', stopAudioRecording);
-
+    function redirect(url) {
+        window.location.href = url;
+    }
 </script>
 </body>
 </html>

@@ -110,21 +110,17 @@
             <h1>LOGO .</h1>
         </div>
         <div class="nav-button">
-            <button class="btn white-btn" id="loginBtn" onclick="login()">
-                <a href="{{url_for('login')}}" >
+            <div class="nav-button">
+                <button class="btn white-btn" id="loginBtn" onclick="redirect('/login')">
                     Log In
-                </a>
-            </button>
-            <button class="btn white-btn" id="loginBtn" onclick="register()">
-                <a href="{{url_for('register')}}">
+                </button>
+                <button class="btn white-btn" id="loginBtn" onclick="redirect('/register')">
                     Register
-                </a>
-            </button>
-            <button class="btn white-btn" id="registerBtn" onclick="register()">
-                <a href="{{url_for('adminlogin')}}">
+                </button>
+                <button class="btn white-btn" id="registerBtn" onclick="redirect('/adminlogin')">
                     Admin Login
-                </a>
-            </button>
+                </button>
+            </div>
         </div>
     </nav>
     <h1>Admin Login</h1>
@@ -141,4 +137,9 @@
     </form>    
 
 </body>
+<script>
+    function redirect(url) {
+        window.location.href = url;
+    }
+</script>
 </html>

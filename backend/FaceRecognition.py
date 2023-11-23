@@ -8,9 +8,9 @@ FACE_RECOGNITION_FLAG = True
 webcam = None
 
 def run_face_recognition():
-    print("Starting face recognition...")
+    print("Starting face recognition.....")
     with open('log.txt', 'a') as file:
-        file.write("Starting face recognition...\n")
+        file.write("Starting face recognition.....\n")
         
     # Function to create required folders
     def create_folders():

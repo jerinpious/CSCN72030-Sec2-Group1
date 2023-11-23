@@ -87,12 +87,11 @@
         }
 
         .nav-button .btn {
-            width: 150px;
-            height: 50px;
-            font-weight: 500;
+            width: 180px;
+            height: 60px;
             font-size: large;
-            background: rgba(222, 49, 49, 0.4);
-            color: #850c0c;
+            background: rgba(255, 255, 255, 0.4);
+            color: #ffffff;
             border: none;
             border-radius: 30px;
             cursor: pointer;
@@ -139,12 +138,18 @@
 <body>
     <div class="Alerts-header">
         <h1>Alerts</h1>
-        <button class="btn white-btn" id="alertsBtn">
-            <a href="{{url_for('admindashboard')}}">
+        <div class="nav-button">
+            <!--<button class="btn white-btn" id="alertsBtn">
+                <a href="{{url_for('admindashboard')}}">
+                    Admin Dashboard
+                </a>
+            </button>-->
+            <button class="btn white-btn" id="alertsBtn" onclick="redirect('{{url_for('admindashboard')}}')">
                 Admin Dashboard
-            </a>
-        </button>
-    </div>
+            </button>
+        </div>
+        
+    </div>        
     <ul class="gallery">
         <li class="gallery-item">
             <img src="{{ url_for('static', filename='face1.jpg') }}" alt="Unknown Face 1">
@@ -194,5 +199,9 @@
         <!-- Add more gallery items as needed -->
     </ul>
 </body>
-
+<script>
+    function redirect(url) {
+        window.location.href = url;
+    }
+</script>
 </html>
