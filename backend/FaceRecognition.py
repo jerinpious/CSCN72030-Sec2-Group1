@@ -59,7 +59,7 @@ def run_face_recognition():
     # Set webcam resolution and desired frame rate
     webcam.set(3, 640)  # Width
     webcam.set(4, 480)  # Height
-    desired_fps = 60  # Set the desired frame rate
+    desired_fps = 10  # Set the desired frame rate
 
     # Set the frame rate for the webcam
     #webcam.set(cv2.CAP_PROP_FPS, desired_fps)
