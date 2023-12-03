@@ -82,6 +82,12 @@ class AdminLoginForm(FlaskForm):
 def home():
     return render_template('home.html')
 
+@app.route('/settings')
+@login_required
+def settings():
+    return render_template('settings.html')
+
+
 import time
 @app.route('/dashboard')
 @login_required

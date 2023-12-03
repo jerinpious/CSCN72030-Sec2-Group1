@@ -150,6 +150,9 @@
             <button class="btn white-btn" id="loginBtn" onclick="redirect('/alerts')">
                 Alerts!
             </button>
+            <button class="btn white-btn" id="loginBtn" onclick="redirect('/settings')">
+                Settings
+            </button>
         </div>
     </nav>
 
@@ -160,9 +163,24 @@
         </div>
     </div>
    <!-- Add a button to start face recognition -->
-   <button id="startRecognition">Start Face Recognition</button>
+   <button id="FacialDetection">Start Face Recognition</button>
    <!--<button id="stopRecognition">Stop Face Recognition</button>-->
    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        updateButtonVisibility();  // Call the function to check the checkbox and update button visibility
+
+        // Optional: Add an event listener to update the button visibility whenever the checkbox changes
+        const facialDetectionCheckbox = document.getElementById('FacialDetection');
+        facialDetectionCheckbox.addEventListener('change', updateButtonVisibility);
+    });
+
+    function updateButtonVisibility() {
+        // Retrieve checkbox state from localStorage
+        const facialDetectionCheckbox = document.getElementById('FacialDetection');
+
+        // If the checkbox is checked, show the button; otherwise, hide it
+        document.getElementById('startRecognition').style.display = facialDetectionCheckbox.checked ? 'block' : 'none';
+    }
        function startFaceRecognition() {
            // Use AJAX to send a request to the server to start face recognition
            fetch('/start_face_recognition', {

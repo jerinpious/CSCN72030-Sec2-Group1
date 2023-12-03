@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="style.css">
+</head>
+<style>
+    /* POPPINS FONT */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+*{  
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body{
+    background: url("Demo_Baground.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    overflow: hidden;
+}
+
+
+
+.settings-icon{
+    width: 20px; /* Set the desired width for the icon */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 10px; /* Add spacing between the icon and username */
+    margin-left: 20px;
+}
+
+.content {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.left-box, .right-box {
+    background-color: white;
+    border: 1px solid gray;
+    padding: 10px;
+    height: 600px; /* Set the desired height */
+    box-sizing: border-box; /* Ensure padding and border don't increase width */
+    border-radius: 10px;
+    margin-top: 15px;
+    margin: 10px;
+}
+
+.left-box {
+    flex: 3; /* Adjust flex ratio to make it larger */
+    width: calc(66.66% - 10px); /* Adjust width considering padding and border */
+}
+
+.right-box {
+    flex: 1; /* Adjust flex ratio for the smaller box */
+    width: calc(33.33% - 10px); /* Adjust width considering padding and border */
+}
+
+/* Settings Page */
+
+/* Define styles for the Settings page */
+.settings-page {
+    background-color: rgb(54, 50, 50); /* Set the background color to black */
+    color: white; /* Set text color to white */
+    margin: 0; /* Reset default margin */
+    padding: 0; /* Reset default padding */
+}
+
+/* Styles for the Settings header */
+.settings-header {
+    background-color: #333; /* Darker background for the header */
+    padding: 20px; /* Add padding to the header */
+    text-align: left; /* Align text to the left */
+}
+
+.settings-header h1 {
+    margin: 0; /* Remove default margin */
+    font-size: 28px; /* Set the desired font size for the header text */
+}
+
+/* Styles for the Settings content */
+.settings-content {
+    padding: 20px; /* Add padding to the content area */
+    color: white; /* Set text color to white */
+}
+
+.setting-option {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.setting-option label {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.setting-option input[type="checkbox"] {
+    margin-left: auto;
+}
+.btn.white-btn {
+            background: grey;
+            color: #ffffff;
+            margin-top: -40px;
+        }
+
+</style>
+<body class="settings-page">
+    <div class="settings-header">
+        <h1>Settings</h1>
+        <button class="btn white-btn" id="loginBtn" onclick=" redirect('/admin_dashboard')">
+            Dashboard
+        </button>
+    </div>
+    <div class="settings-content">
+        <div class="setting-option">
+            <label for="FacialDetection">Facial Detection</label>
+            <input type="checkbox" id="FacialDetection">
+            <label for="Audio">Audio</label>
+            <input type="checkbox" id="Audio">
+            <label for="Object Detection">Object Detection</label>
+            <input type="checkbox" id="Object Detection">
+            <label for="Intrusion Detection">Intrusion Detection</label>
+            <input type="checkbox" id="Intrusion Detection">
+            <label for="Motion Detection">Motion Detection</label>
+            <input type="checkbox" id="Motion Detection">
+            <label for="Environmental Monitering">Environmental Monitering</label>
+            <input type="checkbox" id="Environmental Monitering">
+        </div>
+        <!-- Add more setting options here -->
+    </div>
+   
+    <script>
+        // Retrieve checkbox state from localStorage on page load for all checkboxes
+        document.addEventListener('DOMContentLoaded', function () {
+            var checkboxes = document.querySelectorAll('.setting-option input[type="checkbox"]');
+
+            checkboxes.forEach(function(checkbox) {
+                var savedCheckboxState = localStorage.getItem(checkbox.id);
+
+                if (savedCheckboxState !== null) {
+                    checkbox.checked = JSON.parse(savedCheckboxState);
+                }
+
+                // Store checkbox state in localStorage when it changes
+                checkbox.addEventListener('change', function () {
+                    localStorage.setItem(checkbox.id, this.checked);
+                });
+            });
+        });
+        </script>
+</body>
+</html>
