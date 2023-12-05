@@ -197,6 +197,10 @@ def intruder_alerts():
 
 
 
+@app.route('/recordings')
+@login_required
+def alerts():
+    return render_template('Recordings.html', username=current_user.username)
 
 @app.route('/logout')
 @login_required
