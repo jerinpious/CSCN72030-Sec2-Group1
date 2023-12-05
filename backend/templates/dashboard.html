@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Dashboard</title>
-    <script type="text/javascript">
+    <!--<script type="text/javascript">
         setInterval(function(){
             location.reload();
         }, 2000);  // Refresh every 2 seconds (adjust the interval as needed)
@@ -18,7 +18,7 @@
         function scrollToBottom() {
             scrollableDiv.scrollTop = scrollableDiv.scrollHeight;
         }
-    </script> 
+    </script> -->
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -78,6 +78,7 @@
             flex: 0.7; /* Adjust flex ratio for the smaller box */
             width: calc(33.33% - 10px); /* Adjust width considering padding and border */
             align-items: first baseline;
+            text-align: left;
         }
         button {
             background-color:  rgb(211, 76, 18);
@@ -233,10 +234,35 @@
             <video id="videoFeed" autoplay></video>-->
         </div>        
         <div class="right-box" id="scrollableDiv" style="height: 520px; overflow-y: auto;">
-            {% for line in data %}
-                <p>{{ line }}</p>
+            {% if data %}
+                <h2>Log Data</h2>
+                <ul>
+                    {% for entry in data %}
+                        {{ entry }}
+                    {% endfor %}
+                </ul>
                 <br>
-            {% endfor %}
+            {% endif %}
+    
+            <!-- Environmental Monitoring Data -->
+<h2>Environmental Monitoring Data</h2>
+<ul>
+    {% for entry in sensor_data %}
+        <li>
+            <strong>Temperature:</strong> {{ entry.temperature }}<br>
+            <strong>Pressure:</strong> {{ entry.pressure }}<br>
+            <strong>Humidity:</strong> {{ entry.humidity }}<br>
+            <strong>Gyro Data:</strong> Roll: {{ entry.gyro_data.roll }}, Pitch: {{ entry.gyro_data.pitch }}, Yaw: {{ entry.gyro_data.yaw }}<br>
+            <strong>Accelerometer Data:</strong> Roll: {{ entry.accel_data.roll }}, Pitch: {{ entry.accel_data.pitch }}, Yaw: {{ entry.accel_data.yaw }}<br>
+            <strong>Magnetometer Data:</strong> {{ entry.mag_data }}<br>
+        </li>
+    {% endfor %}
+</ul>
+<br>
+
+    
+            <!-- Other content in the right box -->
+            <!-- ... -->
         </div>
     </div>
     <!-- Add a button to start face recognition -->

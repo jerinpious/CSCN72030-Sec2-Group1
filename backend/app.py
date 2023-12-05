@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, redirect , jsonify, Response
+from flask import Flask, render_template, url_for, redirect , jsonify, Response, session
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
@@ -88,9 +88,31 @@ import time
 def dashboard():
     data = []
     timestamp = int(time.time())
+    
+    # Read data from the text file 'log.txt'
     with open('log.txt', 'r') as file:
         data.append(file.read())
-    return render_template('dashboard.html', username=current_user.username, timestamp=timestamp, data=data)
+
+    # Read and process data from 'received_sensor_data.txt'
+    sensor_data = []
+    with open('received_sensor_data.txt', 'r') as file:
+        for line in file:
+            sensor_data.append(json.loads(line))
+
+    # Format numerical values to two decimal places
+    for entry in sensor_data:
+        entry['temperature'] = "{:.2f}".format(entry['temperature'])
+        entry['pressure'] = "{:.2f}".format(entry['pressure'])
+        entry['humidity'] = "{:.2f}".format(entry['humidity'])
+        entry['gyro_data']['roll'] = "{:.2f}".format(entry['gyro_data']['roll'])
+        entry['gyro_data']['pitch'] = "{:.2f}".format(entry['gyro_data']['pitch'])
+        entry['gyro_data']['yaw'] = "{:.2f}".format(entry['gyro_data']['yaw'])
+        entry['accel_data']['roll'] = "{:.2f}".format(entry['accel_data']['roll'])
+        entry['accel_data']['pitch'] = "{:.2f}".format(entry['accel_data']['pitch'])
+        entry['accel_data']['yaw'] = "{:.2f}".format(entry['accel_data']['yaw'])
+        entry['mag_data'] = "{:.2f}".format(entry['mag_data'])
+
+    return render_template('dashboard.html', username=current_user.username, timestamp=timestamp, data=data, sensor_data=sensor_data)
 
 @app.route('/admin_dashboard')
 @login_required
