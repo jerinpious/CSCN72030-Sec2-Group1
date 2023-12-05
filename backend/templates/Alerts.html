@@ -2,6 +2,9 @@
 <html lang="en">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <title>My Alerts</title>
     <style>
         /* Your CSS styles here */
         body {
@@ -12,29 +15,7 @@
             font-family: 'Poppins', sans-serif;
             color: white;
         }
-
-        .gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            list-style: none; /* Remove default list styles */
-            padding: 0;
-        }
-
-        .gallery-item {
-            margin: 10px;
-            text-align: center;
-        }
-
-        .gallery-item img {
-            width: 200px;
-            height: 200px;
-        }
-
-        body.alerts {
-            background-color: rgb(54, 50, 50);
-        }
-
+        
         .Alerts-header {
             background-color: #333;
             padding: 20px;
@@ -66,71 +47,26 @@
             cursor: pointer;
         }
 
-        .nav {
-            position: fixed;
-            top: 0;
+        .gallery {
             display: flex;
-            justify-content: space-around;
-            width: 100%;
-            height: 50px;
-            line-height: 80px;
-            background: linear-gradient(rgba(39, 39, 39, 0.6), transparent);
-            z-index: 100;
+            flex-wrap: wrap;
+            justify-content: center;
+            list-style: none; /* Remove default list styles */
+            padding: 0;
         }
 
-        .nav-logo h1 {
-            margin: 0;
+        .gallery-item {
+            margin: 10px;
+            text-align: center;
+        }
+
+        .gallery-item img {
+            width: 200px;
+            height: 200px;
+        }
+
+        .image-details {
             color: white;
-            font-size: 25px;
-            font-weight: 600;
-            margin-right: 20px; /* Adjusted margin */
-        }
-
-        .nav-button .btn {
-            width: 180px;
-            height: 60px;
-            font-size: large;
-            background: rgba(255, 255, 255, 0.4);
-            color: #ffffff;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            transition: .3s ease;
-            margin-top: -10px; /* Adjusted margin */
-            display: inline-block;
-        }
-
-        form {
-            max-width: 300px;
-            margin: 0 auto;
-        }
-
-        .wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .nav-menu-btn {
-            display: none;
-        }
-
-        .form-box {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-        }
-
-        .nav-menu {
-            display: flex;
-            justify-content: space-around;
-            width: 100%;
-        }
-
-        .nav-menu.responsive {
-            flex-direction: column;
         }
     </style>
 </head>
@@ -139,69 +75,31 @@
     <div class="Alerts-header">
         <h1>Alerts</h1>
         <div class="nav-button">
-            <!--<button class="btn white-btn" id="alertsBtn">
-                <a href="{{url_for('admindashboard')}}">
-                    Admin Dashboard
-                </a>
-            </button>-->
             <button class="btn white-btn" id="alertsBtn" onclick="redirect('{{url_for('admindashboard')}}')">
                 Admin Dashboard
             </button>
         </div>
-        
-    </div>        
+    </div>
     <ul class="gallery">
+        {% for img_path in image_paths %}
         <li class="gallery-item">
-            <img src="{{ url_for('static', filename='face1.jpg') }}" alt="Unknown Face 1">
+            <img src="{{ img_path }}" alt="Unknown Face">
             <div class="image-details">
-                <p>Date: 10/12/2023</p>
-                <p>Location: Lobby</p>
-                <p>Camera ID: Camera 1</p>
+                <!-- Assuming file names contain details, extract and format them -->
+                <p>Date:</p>
+                <p>Location:</p>
+                <p>Camera ID:</p>
                 <!-- Add more details as needed -->
             </div>
         </li>
-        <li class="gallery-item">
-            <img src="{{ url_for('static', filename='face2.avif') }}" alt="Unknown Face 2">
-            <div class="image-details">
-                <p>Date: 10/12/2023</p>
-                <p>Location: Entrance</p>
-                <p>Camera ID: Camera 2</p>
-                <!-- Add more details as needed -->
-            </div>
-        </li>
-        <li class="gallery-item">
-            <img src="{{ url_for('static', filename='face3.webp') }}" alt="Unknown Face 3">
-            <div class="image-details">
-                <p>Date: 10/13/2023</p>
-                <p>Location: Corridor</p>
-                <p>Camera ID: Camera 3</p>
-                <!-- Add more details as needed -->
-            </div>
-        </li>
-        <li class="gallery-item">
-            <img src="{{ url_for('static', filename='face4.webp') }}" alt="Unknown Face 4">
-            <div class="image-details">
-                <p>Date: 10/14/2023</p>
-                <p>Location: Office</p>
-                <p>Camera ID: Camera 4</p>
-                <!-- Add more details as needed -->
-            </div>
-        </li>
-        <li class="gallery-item">
-            <img src="{{ url_for('static', filename='face5.jpg') }}" alt="Unknown Face 5">
-            <div class="image-details">
-                <p>Date: 10/15/2023</p>
-                <p>Location: Breakroom</p>
-                <p>Camera ID: Camera 5</p>
-                <!-- Add more details as needed -->
-            </div>
-        </li>
-        <!-- Add more gallery items as needed -->
+        {% endfor %}
     </ul>
+    
+    <script>
+        function redirect(url) {
+            window.location.href = url;
+        }
+    </script>
 </body>
-<script>
-    function redirect(url) {
-        window.location.href = url;
-    }
-</script>
+
 </html>

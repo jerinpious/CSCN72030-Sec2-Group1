@@ -15,7 +15,7 @@ def run_face_recognition():
     # Function to create required folders
     def create_folders():
         script_directory = os.path.dirname(os.path.abspath(__file__))
-        face_properties_folder = os.path.join(script_directory, 'Face Properties')
+        face_properties_folder = os.path.join(script_directory, 'Face_Properties')
 
         folders = ["faces", "unwanted_people", "recordings", "intruders", "known_faces"]
         for folder in folders:
@@ -27,7 +27,7 @@ def run_face_recognition():
 
 
     # Load images and their corresponding names from the "known_faces" folder
-    known_faces_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Face Properties', 'known_faces')
+    known_faces_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Face_Properties', 'known_faces')
     known_face_names = []
     known_face_images = []
 
@@ -39,7 +39,7 @@ def run_face_recognition():
             known_face_images.append(known_image)
 
     # Load images and their corresponding names from the "unwanted_people" folder
-    unwanted_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Face Properties', 'unwanted_people')
+    unwanted_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Face_Properties', 'unwanted_people')
     unwanted_face_names = []
     unwanted_face_images = []
 
@@ -73,10 +73,10 @@ def run_face_recognition():
     start_time = None
     record_duration = 3 * 60 * 60  # 3 hours in seconds
 
-    faces_output_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Face Properties', 'faces')
+    faces_output_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Face_Properties', 'faces')
     os.makedirs(faces_output_folder, exist_ok=True)
 
-    records_output_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Face Properties', 'records')
+    records_output_folder = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Face_Properties', 'records')
     os.makedirs(records_output_folder, exist_ok=True)
 
     video_writer = None
@@ -142,7 +142,7 @@ def run_face_recognition():
                 cv2.putText(img1, f"INTRUDER: {intruder_name}", (x, y - 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
 
                 # Save the screenshot of the intruder to the "intruders" folder
-                intruder_filename = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Face Properties', 'intruders', f'{intruder_name}_{datetime.now().strftime("%Y%m%d%H%M%S")}_intruder_{i + 1}.png')
+                intruder_filename = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'Face_Properties', 'intruders', f'{intruder_name}_{datetime.now().strftime("%Y%m%d%H%M%S")}_intruder_{i + 1}.png')
                 cv2.imwrite(intruder_filename, face_roi)
             else:
                 rectangle_color = (0, 255, 0)  # Green for known faces

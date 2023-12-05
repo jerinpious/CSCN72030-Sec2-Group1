@@ -10,6 +10,7 @@ from flask import render_template, request
 import subprocess
 from FaceRecognition import run_face_recognition, stop_face_recognition
 from audio import record_audio, stop_recording
+from flask import url_for
 
 
 app = Flask(__name__)
@@ -92,7 +93,7 @@ def dashboard():
         data.append(file.read())
     return render_template('dashboard.html', username=current_user.username, timestamp=timestamp, data=data)
 
-@app.route('/admin_dashboard')
+@app.route('/admindashboard')
 @login_required
 def admindashboard():
     timestamp = int(time.time())
@@ -153,10 +154,31 @@ def adminlogin():
 
     return render_template('admin.html', form=form)
 
-@app.route('/alerts')
+@app.route('/Alerts')
 @login_required
-def alerts():
-    return render_template('Alerts.html', username=current_user.username)
+def intruder_alerts():
+    intruders_folder = 'D:/CSCN72030-Sec2-Group1/backend/Face_Properties/intruders'  # Using forward slashes for paths
+    intruder_images = [img for img in os.listdir(intruders_folder) if img.endswith(('.jpg', '.png'))]
+    
+    print("Intruder images found:")
+    print(intruder_images)
+    
+    image_paths = [url_for('static', filename=f'intruders/{img}') for img in intruder_images]
+    
+    print("Generated image paths:")
+    print(image_paths)
+    
+    return render_template('Alerts.html', image_paths=image_paths)
+
+
+
+
+# @app.route('/Alerts')
+# @login_required
+# def alerts():
+#     image_names = os.listdir('./CSCN72030-Sec2-Group1/backend/face properties/intruders')
+#     return render_template("Alerts.html", image_names=image_names)
+
 
 
 @app.route('/logout')
