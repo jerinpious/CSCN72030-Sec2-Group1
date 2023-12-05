@@ -27,7 +27,7 @@ Our advanced security camera system doesn't just provide solutions; it sets new 
 2. Facial Features - Nour 😃👤
 3. Intrusion Detection - Nour 🚷
 4. Audio Detection - Jerin 🔊
-5. Object Detection - Inshal 📦
+5. Server Connection - Inshal 📦
 6. Motion Detection - Nour 🏃
 7. Environmental Monitoring - Inshal 🌡️🌿
 
