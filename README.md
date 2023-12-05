@@ -33,11 +33,11 @@ Our advanced security camera system doesn't just provide solutions; it sets new 
 
 ## 🎮 Things to Control
 
-1. Access Control - Jerin 🚪
+1. Audio Management - Jerin 🚪
 2. View Recordings & Pictures (Admin) - Nour 📸
-3. Recording Management - Start & Stop ▶️⏹️
-4. User Permissions - Jerin 👥
-5. Alert Management - Inshal 🚨
+3. Recording Management - Start & Stop ▶️⏹️ - Nour 📸
+4. User Registeration & Login - Jerin 👥
+5. Facial Recognition - Nour 🚨
 
 ## 🌐 Website
 
